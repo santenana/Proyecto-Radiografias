@@ -24,3 +24,7 @@ keras==2.15.0
 # torch==2.1.0
 opencv-python==4.10.0.84
 >>>>>>> dec990c7389969511ac2d7b01754e39ca7cd06f1
+#------------ SLOAIZA
+streamlit==1.37.1
+gdown==5.2.0
+fpdf==1.7.2
