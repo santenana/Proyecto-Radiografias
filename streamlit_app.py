@@ -14,7 +14,7 @@ tf.compat.v1.disable_eager_execution()
 tf.compat.v1.experimental.output_all_intermediates(True)
 
 # Ruta del modelo
-model_path = "deteccion_fracturas.h5"
+model_path = "clasificador_fractura.h5"
 
 # Cargar el modelo
 try:
@@ -24,19 +24,19 @@ except Exception as e:
     st.error(f"Error al cargar el modelo: {e}")
 
 # Función para preprocesar la imagen
-def preprocess(array):
-    array = cv2.resize(array, (512, 512))
-    array = cv2.cvtColor(array, cv2.COLOR_BGR2GRAY)
+def preprocess(imagen):
+    imagen = cv2.resize(imagen, (512, 512))
+    imagen = cv2.cvtColor(imagen, cv2.COLOR_BGR2GRAY)
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(4, 4))
-    array = clahe.apply(array)
-    array = array / 255
-    array = np.expand_dims(array, axis=-1)
-    array = np.expand_dims(array, axis=0)
-    return array
+    imagen = clahe.apply(imagen)
+    imagen = imagen / 255
+    imagen = np.expand_dims(imagen, axis=-1)
+    imagen = np.expand_dims(imagen, axis=0)
+    return imagen
 
 # Función Grad-CAM
-def grad_cam(array):
-    img = preprocess(array)
+def grad_cam(imagen):
+    img = preprocess(imagen)
     preds = model.predict(img)
     argmax = np.argmax(preds[0])
     output = model.output[:, argmax]
@@ -54,7 +54,7 @@ def grad_cam(array):
     heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[2]))
     heatmap = np.uint8(255 * heatmap)
     heatmap = cv2.applyColorMap(heatmap, cv2.COLORMAP_JET)
-    img2 = cv2.resize(array, (512, 512))
+    img2 = cv2.resize(imagen, (512, 512))
     hif = 0.8
     transparency = heatmap * hif
     transparency = transparency.astype(np.uint8)
@@ -62,10 +62,10 @@ def grad_cam(array):
     return superimposed_img[:, :, ::-1]
 
 # Función de predicción
-def predict(array):
-    batch_array_img = preprocess(array)
-    prediction = np.argmax(model.predict(batch_array_img))
-    proba = np.max(model.predict(batch_array_img)) * 100
+def predict(imagen):
+    batch_imagen_img = preprocess(imagen)
+    prediction = np.argmax(model.predict(batch_imagen_img))
+    proba = np.max(model.predict(batch_imagen_img)) * 100
     label = ""
     if prediction == 0:
         label = "bacteriana"
@@ -73,14 +73,14 @@ def predict(array):
         label = "normal"
     elif prediction == 2:
         label = "viral"
-    heatmap = grad_cam(array)
+    heatmap = grad_cam(imagen)
     return (label, proba, heatmap)
 
 # Función para leer archivos DICOM
 def read_dicom_file(path):
     img = dicom.dcmread(path)
-    img_array = img.pixel_array
-    img2 = img_array.astype(float)
+    img_imagen = img.pixel_imagen
+    img2 = img_imagen.astype(float)
     img2 = (np.maximum(img2, 0) / img2.max()) * 255.0
     img2 = np.uint8(img2)
     img_RGB = cv2.cvtColor(img2, cv2.COLOR_GRAY2RGB)
@@ -90,8 +90,8 @@ def read_dicom_file(path):
 def read_image_file(path):
     img = Image.open(path)
     img = img.convert('RGB')
-    img_array = np.array(img)
-    return img_array
+    img_imagen = np.imagen(img)
+    return img_imagen
 
 # Función para generar reporte PDF
 def generate_pdf(patient_id, label, proba, original_image, heatmap_image):
@@ -112,8 +112,8 @@ def generate_pdf(patient_id, label, proba, original_image, heatmap_image):
     pdf.ln(10)
 
     # Convertir imágenes a PIL para agregar al PDF
-    original_image_pil = Image.fromarray(original_image)
-    heatmap_image_pil = Image.fromarray(heatmap_image)
+    original_image_pil = Image.fromimagen(original_image)
+    heatmap_image_pil = Image.fromimagen(heatmap_image)
 
     # Guardar imágenes en buffers de memoria
     original_image_buffer = BytesIO()
@@ -159,8 +159,8 @@ def generate_pdf(patient_id, label, proba, original_image, heatmap_image):
 # Interfaz en Streamlit
 def main():
     # Inicializar el estado de la sesión
-    if 'image_array' not in st.session_state:
-        st.session_state.image_array = None
+    if 'image_imagen' not in st.session_state:
+        st.session_state.image_imagen = None
         st.session_state.label = None
         st.session_state.proba = None
         st.session_state.heatmap = None
@@ -177,15 +177,15 @@ def main():
     if uploaded_file is not None:
         file_extension = os.path.splitext(uploaded_file.name)[1].lower()
         if file_extension == ".dcm":
-            st.session_state.image_array = read_dicom_file(uploaded_file)
+            st.session_state.image_imagen = read_dicom_file(uploaded_file)
         else:
-            st.session_state.image_array = read_image_file(uploaded_file)
+            st.session_state.image_imagen = read_image_file(uploaded_file)
         
         # Mostrar imagen original
-        st.image(st.session_state.image_array, caption="🖼 Imagen Radiográfica cargada", use_column_width=True)
+        st.image(st.session_state.image_imagen, caption="🖼 Imagen Radiográfica cargada", use_column_width=True)
 
         if st.button("🤖 Predecir"):
-            st.session_state.label, st.session_state.proba, st.session_state.heatmap = predict(st.session_state.image_array)
+            st.session_state.label, st.session_state.proba, st.session_state.heatmap = predict(st.session_state.image_imagen)
             
             # Mostrar resultados
             st.write(f"Resultado: {st.session_state.label}")
@@ -200,7 +200,7 @@ def main():
                     patient_id,
                     st.session_state.label,
                     st.session_state.proba,
-                    st.session_state.image_array,
+                    st.session_state.image_imagen,
                     st.session_state.heatmap
                 )
         
