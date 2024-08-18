@@ -81,8 +81,6 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 logs/
-*.png
-*.jpeg
 Ordenar_Data.ipynb
 # Translations
 *.mo
