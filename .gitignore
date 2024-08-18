@@ -32,7 +32,6 @@ MANIFEST
 imagenes/
 neumonia/
 rayos_x/
-models/
 env_neumonia/
 tests/__pycache__/
 tests/.pytest_cache/
@@ -82,7 +81,10 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
-
+logs/
+*.png
+*.jpeg
+Ordenar_Data.ipynb
 # Translations
 *.mo
 *.pot
