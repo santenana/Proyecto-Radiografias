@@ -12,7 +12,7 @@ Deep Learning aplicado en el procesamiento de imágenes radiográficas de extrem
 - Hombro
 - Muñeca
 
-Adicional se realiza la aplicación de una técnica de explicación llamada Grad-CAM para resaltar con un mapa de calor las regiones relevantes de la imagen de entrada.
+Adicional se realiza la aplicación de una técnica de explicación llamada Grad-CAM para resaltar con un mapa de calor las regiones relevantes de la imagen de entrada. Para mayor información sobre la documentació, objetivos, alcance y planificacion de este propyecto visita el PDF [AQUI](https://drive.google.com/file/d/1lN0J50q5-7EZu9De_gZ0dQb_06fYc9zu/view?usp=sharing).
 
 ---
 
