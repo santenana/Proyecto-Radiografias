@@ -60,7 +60,7 @@ def grad_cam(array):
     else:
         img2 = array
 
-    img2 = cv2.resize(img2, (heatmap.shape[1], heatmap.shape[0]))
+    img2 = cv2.resize(img2, (heatmap.shape[1], heatmap.shape[0]))   
     hif = 0.4 
     transparency = cv2.addWeighted(img2, 1 - hif, heatmap, hif, 0)
     
