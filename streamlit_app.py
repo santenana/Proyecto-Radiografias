@@ -60,8 +60,8 @@ def grad_cam(array):
     else:
         img2 = array
 
-    img2 = cv2.resize(img2, (heatmap.shape[1], heatmap.shape[0]))  # Asegúrate de que img2 tenga las mismas dimensiones que heatmap
-    hif = 0.4  # Ajusta el factor de transparencia para mejorar la visibilidad
+    img2 = cv2.resize(img2, (heatmap.shape[1], heatmap.shape[0]))
+    hif = 0.4 
     transparency = cv2.addWeighted(img2, 1 - hif, heatmap, hif, 0)
     
     return transparency[:, :, ::-1]
