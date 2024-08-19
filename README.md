@@ -64,6 +64,7 @@ En este punto se estará ejecutando el aplicativo de diagnostivo medico para les
 - Presione el botón 'Descargar Reporte en PDF' y automaticamente se descargara un documento PDF con el diagnóstico del modelo.
 - Presión el botón 'Reiniciar Aplicación' para realizar un nuevo diagnóstico.
 
+Para ver el funcionamiento del aplicativo has clic [AQUI](Video_muestra/streamlit.mp4) 
 ---
 
 ## Arquitectura de archivos propuesta.
