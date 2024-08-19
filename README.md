@@ -65,7 +65,6 @@ En este punto se estará ejecutando el aplicativo de diagnostivo medico para les
 - Presión el botón 'Reiniciar Aplicación' para realizar un nuevo diagnóstico.
 
 Para ver el funcionamiento del aplicativo has clic [AQUI](Video_muestra/streamlit.mp4)
-![video](Video_muestra/streamlit.mp4)
 
 ---
 
