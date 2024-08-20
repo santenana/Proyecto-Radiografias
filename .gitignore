@@ -85,7 +85,15 @@ Ordenar_Data.ipynb
 # Translations
 *.mo
 *.pot
-
+*.tex
+*.aux
+*.fls
+*.fdb_latexmk
+*.out
+*.gz
+accuracy_train.png
+loss_train.png
+matriz_confusion.png
 # Django stuff:
 *.log
 local_settings.py
