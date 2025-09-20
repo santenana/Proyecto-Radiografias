@@ -11,7 +11,7 @@ tk==0.1.0
 easy-pil==0.3.3
 # PyAutoGUI==0.9.54
 numpy==1.26.4
-keras==3.11.0
+keras==3.11.3
 # torch==2.1.0
 opencv-python==4.10.0.84
 #------------ SLOAIZA
